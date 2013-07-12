@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Game of Life Unit Tests</title>
+	<script src="../libs/jquery-loader.js"></script>
+	<link  href="../libs/qunit/qunit.css" rel="stylesheet" />
+	<script src="../libs/qunit/qunit.js"></script>
+	<script src="../libs/walkthrough.js"></script>
+</head>
+<body>
+<div id="qunit"></div>
+<script>
+/*
+QUnit Quick Reference:
+	strictEqual(actual, expected, [message])
+	deepEqual(actual, expected, [message])
+	equal(actual, expected, [message])
+	notStrictEqual(actual, expected, [message])
+	notDeepEqual(actual, expected, [message])
+	notEqual(actual, expected, [message])
+	throws(block, [expected], [message])
+		
+Full api: http://api.qunitjs.com/
+*/	
+// *************** Unit Tests ***************
+test("Cells", function() {	
+	var game = new Game();
+   /*
+	* -----
+    * Add unit tests here
+	* -----
+    */
+   // example test:
+   strictEqual(game instanceof Game, true, 'Example passing test');
+   strictEqual(typeof game, 'oops', 'Example failing test');
+});
+
+// *************** Game Code ***************
+function Game() {
+	/*
+	 * -----
+	 * Add constructor code here
+	 * -----
+	 */	
+}
+
+Game.prototype = {
+	/*
+	 * -----
+	 * Add methods here
+	 * -----
+	 */
+	method1: function() {
+		
+	}
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Game of Life Unit Tests</title>
+	<script src="../libs/jquery-loader.js"></script>
+	<link  href="../libs/qunit/qunit.css" rel="stylesheet" />
+	<script src="../libs/qunit/qunit.js"></script>
+</head>
+<body>
+<div id="qunit"></div>
+<script>
+// *************** Unit Tests ***************
+test('Cells', function() {	
+	var game = new Game();
+	strictEqual(game.isAlive(0,0), false, 'Cells are dead until added');
+	strictEqual(game.addCell(0,0), game, 'A single cell can be added');
+	strictEqual(game.isAlive(0,0), true, 'An added cell is alive');
+	strictEqual(game.isAlive(1,1), false, 'Another cell is dead until added');
+	strictEqual(game.isAlive(2,2), false, 'Another cell is dead until added');
+});
+
+test('Evolution: lonely cell', function() {
+	var game = new Game();
+	game.addCell(0,0);
+	strictEqual(game.evolve(), game, 'Evolution should return game object');
+	strictEqual(game.isAlive(0,0), false, 'Lonely cell should die');
+});
+
+test('Neighbor checks', function() {
+	var game = new Game();
+	strictEqual(game.checkNeighbors(1,1), false, '0 neighbors returns false');
+	game.addCell(0,0);
+	strictEqual(game.checkNeighbors(1,1), false, '1 neighbor returns false');
+	game.addCell(1,0);
+	strictEqual(game.checkNeighbors(1,1), 2, '2 neighbors returns 2');
+	game.addCell(2,0);
+	strictEqual(game.checkNeighbors(1,1), 3, '3 neighbors returns 3');
+	game.addCell(2,1);
+	strictEqual(game.checkNeighbors(1,1), false, '4 neighbors returns false');
+	game.addCell(2,2);
+	strictEqual(game.checkNeighbors(1,1), false, '5 neighbors returns false');
+	game.addCell(1,2);
+	strictEqual(game.checkNeighbors(1,1), false, '6 neighbors returns false');
+	game.addCell(0,2);
+	strictEqual(game.checkNeighbors(1,1), false, '7 neighbors returns false');
+	game.addCell(0,1);
+	strictEqual(game.checkNeighbors(1,1), false, '8 neighbors returns false');
+});
+
+test('Evolution: cell birth', function() {
+	var game = new Game();
+	strictEqual(game.shouldBeBorn(1,1), false, '0 neighbors: no birth');
+	game.addCell(0,0);
+	strictEqual(game.shouldBeBorn(1,1), false, '1 neighbor: no birth');
+	game.addCell(1,0);
+	strictEqual(game.shouldBeBorn(1,1), false, '2 neighbors: no birth');
+	game.addCell(2,0);
+	strictEqual(game.shouldBeBorn(1,1), true, '3 neighbors: birth!');
+	game.addCell(2,1);
+	strictEqual(game.shouldBeBorn(1,1), false, '4 neighbors: no birth');
+	game.addCell(2,2);
+	strictEqual(game.shouldBeBorn(1,1), false, '5 neighbors: no birth');
+	game.addCell(1,2);
+	strictEqual(game.shouldBeBorn(1,1), false, '6 neighbors: no birth');
+	game.addCell(0,2);
+	strictEqual(game.shouldBeBorn(1,1), false, '7 neighbors: no birth');
+	game.addCell(0,1);
+	strictEqual(game.shouldBeBorn(1,1), false, '8 neighbors: no birth');	
+});
+
+test('Evolution: cell survival', function() {
+	var game = new Game();
+	game.addCell(1,1);
+	strictEqual(game.shouldSurvive(1,1), false, '0 neighbors: death by underpopulation');
+	game.addCell(0,0);
+	strictEqual(game.shouldSurvive(1,1), false, '1 neighbor: death by underpopulation');
+	game.addCell(1,0);
+	strictEqual(game.shouldSurvive(1,1), true, '2 neighbors: survives!');
+	game.addCell(2,0);
+	strictEqual(game.shouldSurvive(1,1), true, '3 neighbors: survives!');
+	game.addCell(2,1);
+	strictEqual(game.shouldSurvive(1,1), false, '4 neighbors: death by overpopulation');
+	game.addCell(2,2);
+	strictEqual(game.shouldSurvive(1,1), false, '5 neighbors: death by overpopulation');
+	game.addCell(1,2);
+	strictEqual(game.shouldSurvive(1,1), false, '6 neighbors: death by overpopulation');
+	game.addCell(0,2);
+	strictEqual(game.shouldSurvive(1,1), false, '7 neighbors: death by overpopulation');
+	game.addCell(0,1);
+	strictEqual(game.shouldSurvive(1,1), false, '8 neighbors: death by overpopulation');	
+});
+
+test('Evolution: new board', function() {
+	var game = new Game();
+	game.addCell(0,1);
+	game.addCell(1,1);
+	game.addCell(2,1);
+	game.evolve();
+	strictEqual(game.isAlive(0,0), false, '0,0 should not be born');
+	strictEqual(game.isAlive(1,0), true, '1,0 should be born');
+	strictEqual(game.isAlive(2,0), false, '2,0 should not be born');
+	strictEqual(game.isAlive(0,1), false, '0,1 should die');
+	strictEqual(game.isAlive(1,1), true, '1,1 should survive');
+	strictEqual(game.isAlive(2,1), false, '2,1 should die');
+	strictEqual(game.isAlive(0,2), false, '0,2 should not be born');
+	strictEqual(game.isAlive(1,2), true, '1,2 should be born');
+	strictEqual(game.isAlive(2,2), false, '2,2 should not be born');
+});
+
+// *************** Game Code ***************
+function Game() {
+	this.board = {};
+	this.size = {
+		min: {x: Infinity, y: Infinity},
+		max: {x: -Infinity, y: -Infinity}
+	};
+}
+
+Game.prototype = {
+	isAlive: function(x, y) {
+		return !!this.board[x+','+y];
+	},
+	addCell: function(x, y) {
+		this.board[x+','+y] = 1;
+		if (x < this.size.min.x) {
+			this.size.min.x = x;
+		}
+		if (y < this.size.min.y) {
+			this.size.min.y = y;
+		}
+		if (x > this.size.max.x) {
+			this.size.max.x = x;
+		}
+		if (y > this.size.max.y) {
+			this.size.max.y = y;
+		}
+		return this;
+	},
+	evolve: function() {
+		/*
+		 * -----
+		 * Create a board for the next generation of life
+		 * And populate it with cells that should live on.
+		 * -----
+		 */		
+		var newBoard = {};
+		// iterate from just before the top-left corner to just after the bottom-right corner
+		var x, y, isAlive;
+		for (x = this.size.min.x - 1; x <= this.size.max.x + 1; x++) {
+			for (y = this.size.min.y - 1; y <= this.size.max.y + 1; y++) {
+				isAlive = this.isAlive(x, y);
+				if (
+					(isAlive && this.shouldSurvive(x, y)) ||
+					(!isAlive && this.shouldBeBorn(x, y))
+				) {
+					newBoard[x+','+y] = 1;
+				}
+			}
+		}
+		this.board = newBoard;
+		/*
+		 * -----
+		 * And that is it folks! We have a working Game of Life engine in under 100 lines!
+		 * 
+		 * If we hadn't used TDD, our code would likely be over 100 lines and buggy.
+		 * It probably would have taken more time write. And very likely more than 11 steps.
+		 * 
+		 * But the real value is the time saving when it comes to future changes.
+		 * As we add more features such as rendering,
+		 * we can keep adding tests and make sure we don't break anything.
+		 * If we come upon a new requirement that makes us rethink our
+		 * engine, we will have all our unit tests to ensure the new implementation works.
+		 * 
+		 * For example, maybe we want to support other rules besides 23/3.
+		 * Or maybe our implementation is too slow.
+		 * 
+		 * We have peace of mind as we make changes!
+		 * -----
+		 */			
+		return this;
+	},	
+	shouldBeBorn: function(x, y) {
+		return (this.checkNeighbors(x, y) === 3);
+	},	
+	shouldSurvive: function(x, y) {
+		return this.checkNeighbors(x, y) !== false;
+	},
+	checkNeighbors: function(x, y) {
+		var neighbors = 0;
+		if (this.board[(x-1)+','+(y-1)]) neighbors++;
+
+		if (this.board[(x)+','+(y-1)]) neighbors++;
+
+		if (this.board[(x+1)+','+(y-1)]) neighbors++;
+
+		if (this.board[(x-1)+','+(y)]) neighbors++;
+		if (neighbors > 3) return false;
+
+		if (this.board[(x+1)+','+(y)]) neighbors++;
+		if (neighbors > 3) return false;
+
+		if (this.board[(x-1)+','+(y+1)]) neighbors++;
+		if (neighbors > 3) return false;
+
+		if (this.board[(x)+','+(y+1)]) neighbors++;
+		if (neighbors > 3) return false;
+
+		if (this.board[(x+1)+','+(y+1)]) neighbors++;
+		if (neighbors > 3) return false;	
+		
+		if (neighbors < 2) return false;
+		
+		// we would have returned false already if the neighbors
+		// were greater than 3 or less than 2
+		return neighbors;
+	}
+};
+</script>
+</body>
+</html>
