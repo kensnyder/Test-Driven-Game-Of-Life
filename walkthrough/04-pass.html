@@ -1,16 +1,7 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Game of Life Unit Tests</title>
-	<script src="../libs/jquery/jquery.js"></script>
-	<link  href="../libs/qunit/qunit.css" rel="stylesheet" />
-	<script src="../libs/qunit/qunit.js"></script>
-	<script src="../libs/walkthrough.js"></script>
-	<link  href="../libs/prettify/prettify-min.css" rel="stylesheet" />
-	<script src="../libs/prettify/prettify-min.js"></script>
-</head>
+<head><script src="../libs/walkthrough.js"></script></head>
 <body>
-<div id="qunit"></div>
 <script>
 /*
 QUnit Quick Reference:
@@ -33,6 +24,7 @@ test("Cells", function() {
 	strictEqual(game.isAlive(1,1), false, 'Another cell is dead until added');
 });
 
+// *************** Game Code ***************
 /*
  * -----
  * OK. So now we need a little bit smarter implementation.
@@ -41,7 +33,6 @@ test("Cells", function() {
  * where 0 means dead and 1 means alive
  * -----
  */
-// *************** Game Code ***************
 function Game() {
 	this.board = [
 		[0,0],

@@ -1,0 +1,27 @@
+#qunit {
+	margin-top: 20px;
+}	
+#nav {
+	font: 13px Helvetica,Arial,sans-serif;
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 8px;
+	color: #777;
+}
+#nav a,
+#nav a:hover {
+	color: #33f;
+}
+pre {
+	font: 12px/145% Monaco,"Bitstream Vera Sans Mono",Consolas,monospace;
+	overflow: auto;
+	background-color: #eeeef0;
+	padding: 10px;
+	margin: 0;
+}
+h2 {
+	font: bold 20px/145% Helvetica,Arial,sans-serif;
+	margin: 10px 0 0 0;
+	padding: 0;
+}

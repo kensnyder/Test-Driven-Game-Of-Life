@@ -17,17 +17,15 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-qunit');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	
-	grunt.registerTask('walkthrough13', function() {
+	grunt.registerTask('walkthrough14', function() {
 		var pages = ['01-fail.html','01-pass.html','02-fail.html','02-pass.html','03-fail.html','03-pass.html','04-fail.html','04-pass.html','05-fail.html','05-pass.html','06-fail.html','06-pass.html','07-fail.html','07-pass.html','08-fail.html','08-pass.html','09-fail.html','09-pass.html','10-fail.html','10-pass.html','11-fail.html','11-pass.html','12-fail.html','12-pass.html'];		
-		var find1 = '<script src="../libs/walkthrough.js"></script>';
-		var repl1 = '<script src="../libs/walkthrough.js"></script>\n\t<link  href="../libs/prettify/prettify-min.css" rel="stylesheet" />\n\t<script src="../libs/prettify/prettify-min.js"></script>';
+		var find1 = '<div id="qunit"></div>\n';
+		var repl1 = '';
 		var html;
 		for (var i = 0; i < pages.length; i++) {
 			html = grunt.file.read('./walkthrough/' + pages[i]);
 			grunt.file.write('./walkthrough/' + pages[i], html.replace(find1, repl1));
 		}
-		
-		
 	});
 	
 	// Default task.
