@@ -38,7 +38,7 @@ test("Cells", function() {
 	strictEqual(game.isAlive(2,2), false, 'Another cell is dead until added');
 	/*
 	 * -----
-	 * Our test will throw a TypeError and fail
+	 * Our test will throw an exception and fail
 	 * -----
 	 */	
 });
@@ -53,7 +53,7 @@ function Game() {
 
 Game.prototype = {
 	isAlive: function(x, y) {
-		return this.board[x] && this.board[x][y];
+		return this.board[x][y] === 1;
 	},
 	addCell: function(x, y) {
 		this.board[x][y] = 1;

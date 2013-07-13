@@ -110,8 +110,8 @@ test('Board size', function() {
 	game.addCell(2,1);
 	strictEqual(game.size.min.x, 0, 'Min x');
 	strictEqual(game.size.min.y, 1, 'Min y');
-	strictEqual(game.size.min.x, 2, 'Max x');
-	strictEqual(game.size.min.y, 1, 'Max y');
+	strictEqual(game.size.max.x, 2, 'Max x');
+	strictEqual(game.size.max.y, 1, 'Max y');
 });
 
 // *************** Game Code ***************
@@ -165,7 +165,7 @@ Game.prototype = {
 	},
 	checkNeighbors: function(x, y) {
 		var neighbors = 0;
-		if (!this.board[(x-1)+','+(y-1)]) neighbors++;
+		if (this.board[(x-1)+','+(y-1)]) neighbors++;
 
 		if (this.board[(x)+','+(y-1)]) neighbors++;
 

@@ -35,7 +35,8 @@ test("Cells", function() {
  * -----
  * OK. So now we need a little bit smarter implementation.
  * We've been talking about 0,0 and 1,1 so perhaps we need a board
- * Let's try adding a board that is 2 by 2 where 0 is dead and 1 is alive
+ * Let's start with an array of arrays that is 2 by 2 
+ * where 0 means dead and 1 means alive
  * -----
  */
 // *************** Game Code ***************
@@ -48,7 +49,7 @@ function Game() {
 
 Game.prototype = {
 	isAlive: function(x, y) {
-		return this.board[x] && this.board[x][y];
+		return this.board[x][y] === 1;
 	},
 	addCell: function(x, y) {
 		this.board[x][y] = 1;

@@ -37,7 +37,9 @@ test('Cells', function() {
  * Well the game needs to evolve into a new state
  * Let's invoke an evolve method and expect it to return the game instance
  * This seems kind of different than our other tests,
- * so let's create a new test group and instantiate a new game object with one cell
+ * so let's create a new test group.
+ * Our new group needs a new game instance so these tests
+ * are not dependent on the last test
  * -----
  */	
 test('Evolution', function() {

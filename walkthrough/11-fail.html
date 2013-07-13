@@ -104,7 +104,7 @@ test('Evolution: cell survival', function() {
 /*
  * -----
  * Our renderer may need to know the board size.
- * Our coming updates to evolve() will also need to reference board size
+ * Our coming updates to evolve() will also need to reference board size.
  * -----
  */	
 test('Board size', function() {
@@ -117,6 +117,12 @@ test('Board size', function() {
 	strictEqual(game.size.min.x, 2, 'Max x');
 	strictEqual(game.size.min.y, 1, 'Max y');
 });
+/*
+ * -----
+ * Our test will throw an error because
+ * game.size is not yet defined
+ * -----
+ */	
 
 // *************** Game Code ***************
 function Game() {
@@ -143,7 +149,7 @@ Game.prototype = {
 	},
 	checkNeighbors: function(x, y) {
 		var neighbors = 0;
-		if (!this.board[(x-1)+','+(y-1)]) neighbors++;
+		if (this.board[(x-1)+','+(y-1)]) neighbors++;
 
 		if (this.board[(x)+','+(y-1)]) neighbors++;
 

@@ -5,6 +5,7 @@
 	<script src="../libs/jquery-loader.js"></script>
 	<link  href="../libs/qunit/qunit.css" rel="stylesheet" />
 	<script src="../libs/qunit/qunit.js"></script>
+	<script src="../libs/walkthrough.js"></script>
 </head>
 <body>
 <div id="qunit"></div>
@@ -97,12 +98,13 @@ test('Board size', function() {
 	game.addCell(2,1);
 	strictEqual(game.size.min.x, 0, 'Min x');
 	strictEqual(game.size.min.y, 1, 'Min y');
-	strictEqual(game.size.min.x, 2, 'Max x');
-	strictEqual(game.size.min.y, 1, 'Max y');
+	strictEqual(game.size.max.x, 2, 'Max x');
+	strictEqual(game.size.max.y, 1, 'Max y');
 });
 /*
  * -----
- * Let's revisit evolution by cells a state, evolving it, then checking if it is right
+ * Let's revisit evolution by adding cells, evolving, 
+ * then checking if the new board is right
  * We will set up the following points:
  * 000
  * 111
@@ -131,7 +133,7 @@ test('Evolution: new board', function() {
 });
 /*
  * -----
- * Our tests should fail because our evolve implementation
+ * 3 of our tests should fail because our evolve implementation
  * simply clears the board.
  * -----
  */
@@ -139,6 +141,10 @@ test('Evolution: new board', function() {
 // *************** Game Code ***************
 function Game() {
 	this.board = {};
+	this.size = {
+		min: {x: Infinity, y: Infinity},
+		max: {x: -Infinity, y: -Infinity}
+	};	
 }
 
 Game.prototype = {
@@ -173,25 +179,25 @@ Game.prototype = {
 	},
 	checkNeighbors: function(x, y) {
 		var neighbors = 0;
-		if (!this.grid[(x-1)+','+(y-1)]) neighbors++;
+		if (this.board[(x-1)+','+(y-1)]) neighbors++;
 
-		if (this.grid[(x)+','+(y-1)]) neighbors++;
+		if (this.board[(x)+','+(y-1)]) neighbors++;
 
-		if (this.grid[(x+1)+','+(y-1)]) neighbors++;
+		if (this.board[(x+1)+','+(y-1)]) neighbors++;
 
-		if (this.grid[(x-1)+','+(y)]) neighbors++;
+		if (this.board[(x-1)+','+(y)]) neighbors++;
 		if (neighbors > 3) return false;
 
-		if (this.grid[(x+1)+','+(y)]) neighbors++;
+		if (this.board[(x+1)+','+(y)]) neighbors++;
 		if (neighbors > 3) return false;
 
-		if (this.grid[(x-1)+','+(y+1)]) neighbors++;
+		if (this.board[(x-1)+','+(y+1)]) neighbors++;
 		if (neighbors > 3) return false;
 
-		if (this.grid[(x)+','+(y+1)]) neighbors++;
+		if (this.board[(x)+','+(y+1)]) neighbors++;
 		if (neighbors > 3) return false;
 
-		if (this.grid[(x+1)+','+(y+1)]) neighbors++;
+		if (this.board[(x+1)+','+(y+1)]) neighbors++;
 		if (neighbors > 3) return false;	
 		
 		if (neighbors < 2) return false;

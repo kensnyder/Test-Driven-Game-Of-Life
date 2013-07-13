@@ -131,7 +131,7 @@ Game.prototype = {
 	},
 	checkNeighbors: function(x, y) {
 		var neighbors = 0;
-		if (!this.board[(x-1)+','+(y-1)]) neighbors++;
+		if (this.board[(x-1)+','+(y-1)]) neighbors++;
 
 		if (this.board[(x)+','+(y-1)]) neighbors++;
 

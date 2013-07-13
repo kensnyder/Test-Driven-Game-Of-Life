@@ -59,8 +59,9 @@ test('Evolution: survival', function() {
 	 * Let's name the function checkNeighbors.
 	 * It will return 2, 3, or false.
 	 * We con't care about numbers other than 2 or 3
-	 * so we'll just return false for those
+	 * so we'll just return false for those.
 	 * Let's add cells from top left and circle clockwise
+	 * and then run checkNeighbors each time
 	 * -----
 	 */	
 	strictEqual(game.checkNeighbors(1,1), false, '0 neighbors returns false');
