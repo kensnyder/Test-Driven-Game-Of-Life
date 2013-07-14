@@ -3,18 +3,6 @@
 <head><script src="../libs/walkthrough.js"></script></head>
 <body>
 <script>
-/*
-QUnit Quick Reference:
-	strictEqual(actual, expected, [message])
-	deepEqual(actual, expected, [message])
-	equal(actual, expected, [message])
-	notStrictEqual(actual, expected, [message])
-	notDeepEqual(actual, expected, [message])
-	notEqual(actual, expected, [message])
-	throws(block, [expected], [message])
-
-Full api: http://api.qunitjs.com/
-*/
 // *************** Unit Tests ***************
 test('Cells', function() {	
 	var game = new Game();
@@ -52,6 +40,7 @@ test('Neighbor checks', function() {
 	game.addCell(0,1);
 	strictEqual(game.checkNeighbors(1,1), false, '8 neighbors returns false');
 });
+
 test('Evolution: cell birth', function() {
 	var game = new Game();
 	strictEqual(game.shouldBeBorn(1,1), false, '0 neighbors: no birth');
@@ -72,6 +61,7 @@ test('Evolution: cell birth', function() {
 	game.addCell(0,1);
 	strictEqual(game.shouldBeBorn(1,1), false, '8 neighbors: no birth');	
 });
+
 test('Evolution: cell survival', function() {
 	var game = new Game();
 	game.addCell(1,1);
