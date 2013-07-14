@@ -25,10 +25,10 @@ function Game() {
 }
 
 Game.prototype = {
-	isAlive: function() {
+	isAlive: function(x, y) {
 		return this._hasAliveCell;
 	},
-	addCell: function() {
+	addCell: function(x, y) {
 		this._hasAliveCell = true;
 		return this;
 	}

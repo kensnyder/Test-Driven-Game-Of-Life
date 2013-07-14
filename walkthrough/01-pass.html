@@ -15,14 +15,36 @@ function Game() {
 }
 
 Game.prototype = {
-   /*
-	* -----
-    * So now we need to write an isAlive method
-	* We'll simply return false as an example of a placeholder function
-	* Because to pass our unit test we don't yet need an implementation at all
-	* -----
-    */
-	isAlive: function() {
+	/*
+	 * -----
+	 * So now we need to write an isAlive method.
+	 * We'll simply return false as an example of a placeholder function
+	 * Because to pass our unit test we don't yet need an implementation at all.
+	 * 
+	 * Our unit tests are telling us what the parameters
+	 * and return values should be;
+	 * it is a great place to begin adding inline documentation.
+	 * 
+	 * I really like using yuidoc for JavaScript.
+	 * The block below is written in yuidoc syntax
+	 * that is very similar to Javadoc syntax.
+	 * 
+	 * Grunt has grunt-contrib-yuidoc which generates html documentation.
+	 * It also generates JSON documentation
+	 * that I like to use to help generate a README.md.
+	 * 
+	 * For the rest of the walkthrough, we'll omit
+	 * inline documentation to keep minimize distractions.
+	 * -----
+	 */
+	/**
+	 * Check if a cell is alive
+	 * @method isAlive
+	 * @param {Number} x  The x coordinate of the cell
+	 * @param {Number} y  The y coordinate of the cell
+	 * @return {Boolean}
+	 */
+	isAlive: function(x, y) {
 		return false;
 	}
 };

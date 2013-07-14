@@ -16,7 +16,7 @@ function Game() {
 }
 
 Game.prototype = {
-	isAlive: function() {
+	isAlive: function(x, y) {
 		return false;
 	},
    /*
@@ -25,7 +25,7 @@ Game.prototype = {
 	* And now we will pass our unit tests
 	* -----
     */
-	addCell: function() {
+	addCell: function(x, y) {
 		return this;
 	}
 };

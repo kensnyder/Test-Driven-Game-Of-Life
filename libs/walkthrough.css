@@ -1,3 +1,7 @@
+body {
+	padding: 10px;
+	margin: 0;
+}
 #qunit {
 	margin-top: 20px;
 }	
@@ -6,12 +10,17 @@
 	position: absolute;
 	top: 0;
 	right: 0;
-	margin: 8px;
+	margin: 10px;
 	color: #777;
 }
 #nav a,
 #nav a:hover {
 	color: #33f;
+}
+h2 {
+	font: bold 20px/145% Helvetica,Arial,sans-serif;
+	margin: 10px 0 0 0;
+	padding: 0;
 }
 pre {
 	font: 12px/145% Monaco,"Bitstream Vera Sans Mono",Consolas,monospace;
@@ -20,8 +29,7 @@ pre {
 	padding: 10px;
 	margin: 0;
 }
-h2 {
-	font: bold 20px/145% Helvetica,Arial,sans-serif;
-	margin: 10px 0 0 0;
-	padding: 0;
+pre .com {
+    background-color: #FFFFBC;
+    color: #FF0000;
 }

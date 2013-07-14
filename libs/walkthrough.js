@@ -1,5 +1,5 @@
 var headHtml = [
-	'<title>Game of Life Unit Test Walkthrough</title>',
+	'<title>Unit Test Walkthrough: Game of Life</title>',
 	'<link  href="../libs/walkthrough.css" rel="stylesheet" />',
 	'<script src="../libs/jquery/jquery.js"></script>',
 	'<link  href="../libs/qunit/qunit.css" rel="stylesheet" />',
@@ -32,14 +32,18 @@ $(function() { "use strict";
 	var curr = window.location.href.match(/[^\/]+.html/);
 	var idx = pages.indexOf(curr[0]);
 
-	$('#prev').attr('href', pages[idx-1]).html('&laquo; ' + pages[idx-1].replace('.html', ''));
-	$('#curr').text(pages[idx]);
-	$('#next').attr('href', pages[idx+1]).html(pages[idx+1].replace('.html', '') + ' &raquo;');
+	if (pages[idx-1]) {		
+		$('#prev').attr('href', pages[idx-1]).html('&laquo; ' + pages[idx-1].replace('.html', ''));
+	}
+	$('#curr').text(pages[idx].replace('.html', ''));
+	if (pages[idx+1]) {
+		$('#next').attr('href', pages[idx+1]).html(pages[idx+1].replace('.html', '') + ' &raquo;');
+	}
 		
 	var js = $('script').last().text();	
 	var parts = js.split(/\/\/ \*{15} [\w ]+ \*{15}/);	
-	var tests = $.trim(parts[1]);
-	var game = $.trim(parts[2]);
+	var tests = $.trim(parts[1]).replace(/\t/g, '    ');
+	var game = $.trim(parts[2]).replace(/\t/g, '    ');
 	
 	$('#tests').text(tests);
 	$('#game').text(game);	
