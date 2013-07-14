@@ -168,7 +168,7 @@ Game.prototype = {
 		return (this.checkNeighbors(x, y) === 3);
 	},	
 	shouldSurvive: function(x, y) {
-		return this.checkNeighbors(x, y) !== false;
+		return (this.checkNeighbors(x, y) !== false);
 	},
 	checkNeighbors: function(x, y) {
 		var neighbors = 0;
