@@ -10,11 +10,12 @@ var headHtml = [
 ];
 document.write(headHtml.join(''));
 
-// run our setup method after the other scripts are processed
+// run our setup method after the scripts above are parsed and run
 setTimeout(setupWalkthrough, 0)
 
 function setupWalkthrough() {
-	$(function() { "use strict";	
+	// setup page functionality on document ready
+	$(function() { "use strict";
 
 		// don't autostart qunit
 		QUnit.config.autostart = false;
@@ -31,7 +32,7 @@ function setupWalkthrough() {
 		$(document.body).append( $('<div />').html(bodyHtml.join('\n\t')) );
 
 		// generate the navigation
-		var pages = ['00-start.html','01-fail.html','01-pass.html','02-fail.html','02-pass.html','03-fail.html','03-pass.html','04-fail.html','04-pass.html','05-fail.html','05-pass.html','06-fail.html','06-pass.html','07-fail.html','07-pass.html','08-fail.html','08-pass.html','09-fail.html','09-pass.html','10-fail.html','10-pass.html','11-fail.html','11-pass.html','12-fail.html','12-pass.html'];
+		var pages = ['00-start.html','01-fail.html','01-pass.html','02-fail.html','02-pass.html','03-fail.html','03-pass.html','04-fail.html','04-pass.html','05-fail.html','05-pass.html','06-fail.html','06-pass.html','07-fail.html','07-pass.html','08a-fail.html','08a-pass.html','08b-fail.html','08b-pass.html','08c-fail.html','08c-pass.html','09-fail.html','09-pass.html','10-fail.html','10-pass.html','11-fail.html','11-pass.html','12-fail.html','12-pass.html','12-refactor.html'];
 		var curr = window.location.href.match(/[^\/]+.html/);
 		var idx = pages.indexOf(curr[0]);
 		var $prev = $('#prev');

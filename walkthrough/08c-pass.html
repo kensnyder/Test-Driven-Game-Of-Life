@@ -40,40 +40,6 @@ test('Neighbor checks', function() {
 	game.addCell(0,1);
 	strictEqual(game.checkNeighbors(1,1), false, '8 neighbors returns false');
 });
-/*
- * -----
- * Let's use our checkNeighbors function to do something.
- * How about we test the birth rule:
- * Any dead cell with exactly 3 neighbors should become alive.
- * Let's expect a method named shouldBeBorn.
- * -----
- */	
-test('Evolution: cell birth', function() {
-	var game = new Game();
-	strictEqual(game.shouldBeBorn(1,1), false, '0 neighbors: no birth');
-	game.addCell(0,0);
-	strictEqual(game.shouldBeBorn(1,1), false, '1 neighbor: no birth');
-	game.addCell(1,0);
-	strictEqual(game.shouldBeBorn(1,1), false, '2 neighbors: no birth');
-	game.addCell(2,0);
-	strictEqual(game.shouldBeBorn(1,1), true, '3 neighbors: birth!');
-	game.addCell(2,1);
-	strictEqual(game.shouldBeBorn(1,1), false, '4 neighbors: no birth');
-	game.addCell(2,2);
-	strictEqual(game.shouldBeBorn(1,1), false, '5 neighbors: no birth');
-	game.addCell(1,2);
-	strictEqual(game.shouldBeBorn(1,1), false, '6 neighbors: no birth');
-	game.addCell(0,2);
-	strictEqual(game.shouldBeBorn(1,1), false, '7 neighbors: no birth');
-	game.addCell(0,1);
-	strictEqual(game.shouldBeBorn(1,1), false, '8 neighbors: no birth');	
-});
-/*
- * -----
- * Our unit test will fail because shouldBeBorn is not a method
- * -----
- */	
-
 // *************** Game Code ***************
 function Game() {
 	this.board = {};
@@ -91,8 +57,19 @@ Game.prototype = {
 		this.board = {};
 		return this;
 	},
+	/*
+	 * -----
+	 * We can be efficient with our counting.
+	 * Count along and:
+	 * - return false if our count becomes higher than three.
+	 * - otherwise count all 8 positions
+	 * - return false if the count is less than 2
+	 * - otherwise return the count (2 or 3)
+	 * -----
+	 */	
 	checkNeighbors: function(x, y) {
 		var neighbors = 0;
+		
 		if (this.board[(x-1)+','+(y-1)]) neighbors++;
 
 		if (this.board[(x)+','+(y-1)]) neighbors++;

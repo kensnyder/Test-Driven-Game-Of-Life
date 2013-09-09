@@ -27,18 +27,6 @@ test('Neighbor checks', function() {
 	strictEqual(game.checkNeighbors(1,1), false, '1 neighbor returns false');
 	game.addCell(1,0);
 	strictEqual(game.checkNeighbors(1,1), 2, '2 neighbors returns 2');
-	game.addCell(2,0);
-	strictEqual(game.checkNeighbors(1,1), 3, '3 neighbors returns 3');
-	game.addCell(2,1);
-	strictEqual(game.checkNeighbors(1,1), false, '4 neighbors returns false');
-	game.addCell(2,2);
-	strictEqual(game.checkNeighbors(1,1), false, '5 neighbors returns false');
-	game.addCell(1,2);
-	strictEqual(game.checkNeighbors(1,1), false, '6 neighbors returns false');
-	game.addCell(0,2);
-	strictEqual(game.checkNeighbors(1,1), false, '7 neighbors returns false');
-	game.addCell(0,1);
-	strictEqual(game.checkNeighbors(1,1), false, '8 neighbors returns false');
 });
 // *************** Game Code ***************
 function Game() {
@@ -59,17 +47,15 @@ Game.prototype = {
 	},
 	/*
 	 * -----
-	 * Let's work on checking neighbors.
-	 * Basically we are going to count along
-	 * and bail if we have more than 3 neighbors.
-	 * Then at the end we'll bail if we have
-	 * fewer than 2 neighbors.
-	 * If we haven't bailed yet, we must have
-	 * either 2 or 3 neighbors so return that number
+	 * Let's actually check neighbors.
+	 * Basically we are going to count along from
+	 * top left clockwise to left middle
+	 * and return 2 if we have 2 neighbors.
 	 * -----
 	 */	
 	checkNeighbors: function(x, y) {
 		var neighbors = 0;
+		
 		if (this.board[(x-1)+','+(y-1)]) neighbors++;
 
 		if (this.board[(x)+','+(y-1)]) neighbors++;
@@ -77,24 +63,17 @@ Game.prototype = {
 		if (this.board[(x+1)+','+(y-1)]) neighbors++;
 
 		if (this.board[(x-1)+','+(y)]) neighbors++;
-		if (neighbors > 3) return false;
 
 		if (this.board[(x+1)+','+(y)]) neighbors++;
-		if (neighbors > 3) return false;
 
 		if (this.board[(x-1)+','+(y+1)]) neighbors++;
-		if (neighbors > 3) return false;
 
 		if (this.board[(x)+','+(y+1)]) neighbors++;
-		if (neighbors > 3) return false;
 
 		if (this.board[(x+1)+','+(y+1)]) neighbors++;
-		if (neighbors > 3) return false;	
 		
-		if (neighbors < 2) return false;
+		return neighbors == 2 ? 2 : false;
 		
-		// we would have returned false already if the neighbors
-		// were greater than 3 or less than 2
 		return neighbors;
 	}
 };

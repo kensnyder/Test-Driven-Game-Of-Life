@@ -40,14 +40,7 @@ test('Neighbor checks', function() {
 	game.addCell(0,1);
 	strictEqual(game.checkNeighbors(1,1), false, '8 neighbors returns false');
 });
-/*
- * -----
- * Let's use our checkNeighbors function to do something.
- * How about we test the birth rule:
- * Any dead cell with exactly 3 neighbors should become alive.
- * Let's expect a method named shouldBeBorn.
- * -----
- */	
+
 test('Evolution: cell birth', function() {
 	var game = new Game();
 	strictEqual(game.shouldBeBorn(1,1), false, '0 neighbors: no birth');
@@ -68,15 +61,53 @@ test('Evolution: cell birth', function() {
 	game.addCell(0,1);
 	strictEqual(game.shouldBeBorn(1,1), false, '8 neighbors: no birth');	
 });
-/*
- * -----
- * Our unit test will fail because shouldBeBorn is not a method
- * -----
- */	
+
+test('Evolution: cell survival', function() {
+	var game = new Game();
+	game.addCell(1,1);
+	strictEqual(game.shouldSurvive(1,1), false, '0 neighbors: death by underpopulation');
+	game.addCell(0,0);
+	strictEqual(game.shouldSurvive(1,1), false, '1 neighbor: death by underpopulation');
+	game.addCell(1,0);
+	strictEqual(game.shouldSurvive(1,1), true, '2 neighbors: survives!');
+	game.addCell(2,0);
+	strictEqual(game.shouldSurvive(1,1), true, '3 neighbors: survives!');
+	game.addCell(2,1);
+	strictEqual(game.shouldSurvive(1,1), false, '4 neighbors: death by overpopulation');
+	game.addCell(2,2);
+	strictEqual(game.shouldSurvive(1,1), false, '5 neighbors: death by overpopulation');
+	game.addCell(1,2);
+	strictEqual(game.shouldSurvive(1,1), false, '6 neighbors: death by overpopulation');
+	game.addCell(0,2);
+	strictEqual(game.shouldSurvive(1,1), false, '7 neighbors: death by overpopulation');
+	game.addCell(0,1);
+	strictEqual(game.shouldSurvive(1,1), false, '8 neighbors: death by overpopulation');	
+});
+
+test('Evolution: new board', function() {
+	var game = new Game();
+	game.addCell(0,1);
+	game.addCell(1,1);
+	game.addCell(2,1);
+	game.evolve();
+	strictEqual(game.isAlive(0,0), false, '0,0 should not be born');
+	strictEqual(game.isAlive(1,0), true, '1,0 should be born');
+	strictEqual(game.isAlive(2,0), false, '2,0 should not be born');
+	strictEqual(game.isAlive(0,1), false, '0,1 should die');
+	strictEqual(game.isAlive(1,1), true, '1,1 should survive');
+	strictEqual(game.isAlive(2,1), false, '2,1 should die');
+	strictEqual(game.isAlive(0,2), false, '0,2 should not be born');
+	strictEqual(game.isAlive(1,2), true, '1,2 should be born');
+	strictEqual(game.isAlive(2,2), false, '2,2 should not be born');
+});
 
 // *************** Game Code ***************
 function Game() {
 	this.board = {};
+	this.size = {
+		min: {x: Infinity, y: Infinity},
+		max: {x: -Infinity, y: -Infinity}
+	};
 }
 
 Game.prototype = {
@@ -85,11 +116,51 @@ Game.prototype = {
 	},
 	addCell: function(x, y) {
 		this.board[x+','+y] = 1;
+		if (x < this.size.min.x) {
+			this.size.min.x = x;
+		}
+		if (y < this.size.min.y) {
+			this.size.min.y = y;
+		}
+		if (x > this.size.max.x) {
+			this.size.max.x = x;
+		}
+		if (y > this.size.max.y) {
+			this.size.max.y = y;
+		}
 		return this;
 	},
 	evolve: function() {
-		this.board = {};
+		var newBoard = {};
+		var x, y, isAlive, neighborCheck;
+		for (x = this.size.min.x - 1; x <= this.size.max.x + 1; x++) {
+			for (y = this.size.min.y - 1; y <= this.size.max.y + 1; y++) {
+				isAlive = this.isAlive(x, y);
+				/*
+				 * We remove the call to shouldBeBorn and shouldSurvive
+				 * so that we just check neighbors once
+				 */
+				neighborCheck = this.checkNeighbors(x, y);
+				if (
+					(isAlive && neighborCheck !== false) ||
+					(!isAlive && neighborCheck === 3)
+				) {				
+					newBoard[x+','+y] = 1;
+				}
+				/*
+				 * We can be sure these changes will work
+				 * because all of our unit tests will still pass 
+				 */
+			}
+		}
+		this.board = newBoard;		
 		return this;
+	},	
+	shouldBeBorn: function(x, y) {
+		return (this.checkNeighbors(x, y) === 3);
+	},	
+	shouldSurvive: function(x, y) {
+		return (this.checkNeighbors(x, y) !== false);
 	},
 	checkNeighbors: function(x, y) {
 		var neighbors = 0;
