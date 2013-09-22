@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head><script src="../libs/walkthrough.js"></script></head>
+<body>
+<script>
+// *************** Unit Tests ***************
+test('Cells', function() {	
+	var game = new Game();
+	strictEqual(game.isAlive(0,0), false, 'Cells are dead until added');
+	strictEqual(game.addCell(0,0), game, 'A single cell can be added');
+	strictEqual(game.isAlive(0,0), true, 'An added cell is alive');
+	strictEqual(game.isAlive(1,1), false, 'Another cell is dead until added');
+	strictEqual(game.isAlive(2,2), false, 'Another cell is dead until added');
+});
+
+test('Evolution: lonely cell', function() {
+	var game = new Game();
+	game.addCell(0,0);
+	strictEqual(game.evolve(), game, 'Evolution should return game object');
+	strictEqual(game.isAlive(0,0), false, 'Lonely cell should die');
+});
+test('Evolution: survival', function() {
+	var game = new Game();
+	/*
+	 * -----
+	 * We said that having 2 neighbors should return 2
+	 * -----
+	 */	
+	strictEqual(game.checkNeighbors(1,1), false, '0 neighbors returns false');
+	game.addCell(0,0);
+	strictEqual(game.checkNeighbors(1,1), false, '1 neighbor returns false');
+	game.addCell(1,0);
+	strictEqual(game.checkNeighbors(1,1), 2, '2 neighbors returns 2');	
+	/*
+	 * -----
+	 * Our unit test will fail because checkNeighbors always returns false
+	 * -----
+	 */	
+});
+// *************** Game Code ***************
+
+
+
+</script>
+</body>
+</html>
