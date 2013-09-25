@@ -13,7 +13,6 @@ Step 1: Run npm and grunt
 ```bash
 $> cd TD-GOL
 $> npm install
-$> grunt
 $> grunt watch
 ```
 
