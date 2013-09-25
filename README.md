@@ -1,7 +1,7 @@
 Test-Driven Development with The Game of Life
 =
 
-Before you begin, download or git checkout this repository into a folder called "TD-GOL"
+Before you begin, download or git checkout this repository into a folder called "TD-GOL" (or any name is fine)
 
 You can run these exercises (A) with Grunt or (B) with no dependencies. See instructions below.
 
@@ -52,6 +52,6 @@ Other cells die.
 References
 ==
 
-Presentation for the UtahJS Workshop that uses this repository is on [Github](https://github.com/kensnyder/TDD-Game-of-Life-Presentation)
-
 [ConwayJS.com](http://ConwayJS.com), [conwaylife.com Wiki](http://conwaylife.com/wiki/Main_Page), [pentadecathlon.com](http://pentadecathlon.com/lifeNews/index.php)
+
+Presentation for the UtahJS Workshop that uses this repository is on [Github](https://github.com/kensnyder/TDD-Game-of-Life-Presentation)
