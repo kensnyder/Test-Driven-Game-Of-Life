@@ -52,4 +52,6 @@ Other cells die.
 References
 ==
 
+Presentation for the UtahJS Workshop that uses this repository is on [Github](https://github.com/kensnyder/TDD-Game-of-Life-Presentation)
+
 [ConwayJS.com](http://ConwayJS.com), [conwaylife.com Wiki](http://conwaylife.com/wiki/Main_Page), [pentadecathlon.com](http://pentadecathlon.com/lifeNews/index.php)
